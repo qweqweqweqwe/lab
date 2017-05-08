@@ -1,6 +1,13 @@
 from django.db import models
 
 
+class Tasklist(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return "{}".format(self.name)
+
+
 class Task(models.Model):
     name = models.CharField(max_length=200, blank=True)
     description = models.TextField(max_length=1000, blank=True)
@@ -18,5 +25,10 @@ class Task(models.Model):
 
     priority = models.CharField(max_length=1, choices=PRIORITY, default='n')
 
+    tasklist = models.ForeignKey(Tasklist, related_name='tasks', on_delete=models.CASCADE, null=True)
+
+
     def __str__(self):
         return "{}".format(self.name)
+
+
