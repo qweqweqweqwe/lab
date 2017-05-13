@@ -1,6 +1,13 @@
 from django.db import models
 
 
+class Tag(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return "{}".format(self.name)
+
+
 class Tasklist(models.Model):
     name = models.CharField(max_length=200)
 
@@ -15,6 +22,7 @@ class Task(models.Model):
     date_created = models.DateField(auto_now_add=True)
     due_date = models.DateField(null=True, blank=True)
     date_modified = models.DateField(auto_now=True)
+    tags = models.ManyToManyField(Tag)
 
     PRIORITY = (
         ('h', 'High'),
