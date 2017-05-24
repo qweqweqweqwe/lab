@@ -1,6 +1,8 @@
-
+from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from rest_framework import generics, viewsets, status, request
+from rest_framework.generics import CreateAPIView
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -24,11 +26,13 @@ class TaskDetailsView(generics.RetrieveAPIView):
 
 
 class TagDetailsView(generics.ListCreateAPIView):
+
     queryset = Task.objects.all()
     serializer_class = TagSerializer
 
 
 class TasklistCreateView(generics.ListCreateAPIView):
+    permission_classes = (IsAuthenticated,)
     queryset = Tasklist.objects.all()
     serializer_class = TasklistSerializer
 
@@ -68,15 +72,7 @@ class TaskDetailsView(generics.RetrieveUpdateDestroyAPIView):
         return queryset
 
 
-class RegisterUser(APIView):
-    def post(self, request, *args, **kwargs):
-        serialized = UserSerializer(data=request.data)
-        if True:
-            User.objects.create_user(
-                serialized.init_data['email'],
-                serialized.init_data['username'],
-                serialized.init_data['password']
-            )
-            return Response(serialized.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serialized._errors, status=status.HTTP_400_BAD_REQUEST)
+class CreateUserView(CreateAPIView):
+    model = get_user_model()
+    permission_classes = (AllowAny,)
+    serializer_class = UserSerializer
