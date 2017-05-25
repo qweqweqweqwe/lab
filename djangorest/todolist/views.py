@@ -1,11 +1,16 @@
 from django.contrib.auth import get_user_model
-from rest_framework import generics
+from rest_framework import generics, viewsets
 from rest_framework.exceptions import NotFound
 from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
-from .models import Task, Tasklist
-from .serializers import TaskSerializer, TasklistSerializer, UserSerializer
+from .models import Task, Tasklist, Tag
+from .serializers import TaskSerializer, TasklistSerializer, UserSerializer, TagSerializer
+
+
+class TagViewSet(viewsets.ModelViewSet):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
 
 
 class TasklistCreateView(generics.ListCreateAPIView):

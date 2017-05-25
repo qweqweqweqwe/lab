@@ -37,8 +37,5 @@ class Task(models.Model):
 
     tasklist = models.ForeignKey(Tasklist, related_name='tasks', on_delete=models.CASCADE, null=True)
 
-
     def __str__(self):
         return "{}".format(self.name)
-
-

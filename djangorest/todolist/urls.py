@@ -4,7 +4,6 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from .views import TasklistCreateView, TasklistDetailsView, TaskDetailsView, CreateUserView, TaskCreateView
 
 urlpatterns = {
-    # url(r'^', include(router.urls)),
     url(r'^todolists/$', TasklistCreateView.as_view(), name="lists"),
     url(r'^todolists/(?P<pk>[0-9]+)/$', TasklistDetailsView.as_view(), name="list-detail"),
     url(r'^todolists/(?P<list_id>[0-9]+)/tasks', TaskCreateView.as_view(), name="tasks"),
