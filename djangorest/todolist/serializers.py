@@ -1,12 +1,9 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
+
+from .models import Tag
 from .models import Task
 from .models import Tasklist
-from .models import Tag
-from rest_framework import serializers
-
-from django.contrib.auth.models import User
-from rest_framework import serializers
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -26,24 +23,26 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class TagSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Tag
         fields = ('id', 'name')
 
 
 class TaskSerializer(serializers.ModelSerializer):
-    tags = TagSerializer(many=True)
+    tags = TagSerializer(many=True, read_only=True)
 
     class Meta:
         model = Task
-        fields = ('id', 'name', 'description', 'completed', 'date_created', 'date_modified', 'due_date', 'priority', 'tags')
+        fields = ('id', 'name', 'description', 'completed',
+                  'date_created', 'date_modified', 'due_date',
+                  'priority', 'tags',)
         read_only_fields = ('date_created', 'date_modified')
 
 
 class TasklistSerializer(serializers.ModelSerializer):
     tasks = serializers.StringRelatedField(many=True)
+    owner = serializers.CharField(source='owner.username', read_only=True)
 
     class Meta:
         model = Tasklist
-        fields = ('id', 'name', 'tasks')
+        fields = ('id', 'name', 'tasks', 'owner')

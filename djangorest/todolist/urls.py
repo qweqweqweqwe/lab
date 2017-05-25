@@ -1,7 +1,7 @@
 from django.conf.urls import url, include
-from rest_framework import routers
 from rest_framework.urlpatterns import format_suffix_patterns
-from .views import TasklistCreateView, TasklistDetailsView, TaskCreateView, TaskDetailsView, UserViewSet, CreateUserView
+
+from .views import TasklistCreateView, TasklistDetailsView, TaskDetailsView, CreateUserView, TaskCreateView
 
 urlpatterns = {
     # url(r'^', include(router.urls)),
@@ -12,7 +12,5 @@ urlpatterns = {
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^register/$', CreateUserView.as_view(), name='user')
 }
-
-
 
 urlpatterns = format_suffix_patterns(urlpatterns)
